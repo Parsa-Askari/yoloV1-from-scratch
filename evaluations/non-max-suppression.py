@@ -18,10 +18,6 @@ def non_max_suppression(boxes,prob_thresh,iou_thresh):
         boxes=new_boxes
     return trimed_boxes
 
-boxes=[[0.4,1,0.2,0,5,1,2],[0.9,1,0.1,0,5,1,2],[0.9,0,0.2,0,5,1,2]]
-iou_thresh=0.5
-prob_th=0.4
-print(non_max_suppression(boxes,prob_th,iou_thresh))
 
 
 
