@@ -44,4 +44,4 @@ class dataset(Dataset):
                 grid[i,j,21:25]=torch.tensor([x,y,w,h])
                 grid[i,j,20]=1
                 grid[i,j,c]=1
-        return img,boxes
+        return img,grid
