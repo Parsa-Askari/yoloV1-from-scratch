@@ -28,6 +28,6 @@ def Train():
     for ep in range(EPOCHS):
         for img , grid in Trainloader:
             out=yolo(img)
-            loss_fn(out,grid)
+            loss=loss_fn(out,grid)
             break
 Train()
