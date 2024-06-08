@@ -1,5 +1,5 @@
 import torch
-def calculate_iou(predictions,main_box,form="circle"):
+def calculate_iou(predictions,main_box):
     """
     predictions shape (batch_size,4) [x1 , y1 ,x2 ,y2] for triangle and [x1 , y1 ,h1 ,w1] for circle
     main box shape (batch_size , 4) [x1 , y1 ,x2 ,y2] for triangle and [x1 , y1 ,h1 ,w1] for circle
@@ -30,7 +30,7 @@ def calculate_iou(predictions,main_box,form="circle"):
     # print(x1_i,x2_i,y1_i,y2_i)
     
     union = (abs(x1_p - x2_p) * abs(y1_p - y2_p)) + (abs(x1_m - x2_m) * abs(y1_m - y2_m)) - intersection
-    print(intersection / (union + 1e-6))
+    
     return intersection / (union + 1e-6)
 
 

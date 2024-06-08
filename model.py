@@ -69,9 +69,9 @@ class FullyConnected(nn.Module):
         for L in self.layers:
             x=L(x)
         return x
-class yolo(nn.Module):
+class YOLO(nn.Module):
     def __init__(self,S,B,C):
-        super(yolo,self).__init__()
+        super(YOLO,self).__init__()
         self.conv=ConvNetwork(architecture,inp=3)
         self.connected=FullyConnected(S,B,C)
     def forward(self,x):

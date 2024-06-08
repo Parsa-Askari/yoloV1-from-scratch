@@ -1,4 +1,4 @@
-from iou import  calculate_iou
+from .iou import calculate_iou
 import numpy as np
 def non_max_suppression(boxes,prob_thresh,iou_thresh):
     """
