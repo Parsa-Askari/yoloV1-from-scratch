@@ -42,4 +42,4 @@ def evaluation(dataloader,model,prob_thresh=0.009,iou_thresh=0.5,S=7,B=2,C=20):
         # print(len(final_predictions))
         break
     AP=avrage_precision_score(final_predictions,final_targets,iou_thresh,C)
-    print(AP)
+    return AP

@@ -5,6 +5,7 @@ from torch.optim import Adam
 import torch
 from evaluations import Loss
 from evaluations import evaluation
+from tqdm.auto import tqdm
 EPOCHS=1
 BATCH_SIZE=5
 S=7
@@ -25,11 +26,18 @@ def Train():
     img = batch of images with shape (batch size , channel size , width , hight)
     img = batch of images with shape (batch size , S , S , B*5 + C)
     """
-    for ep in range(EPOCHS):
-        evaluation(Trainloader,yolo)
-        break
-        for img , grid in Trainloader:
-            out=yolo(img)
-            loss=loss_fn(out,grid)
-            break
+    with tqdm(total=EPOCHS) as main_pbar:
+        for ep in range(EPOCHS):
+            yolo=yolo.train()
+            with tqdm(total=len(Trainloader)) as pbar:
+                for img , grid in Trainloader:
+                    out=yolo(img)
+                    loss=loss_fn(out,grid)
+                pbar.set_postfix({"loss":loss.item()})
+                pbar.update(1)
+            AP=evaluation(Trainloader,yolo)
+            main_pbar.set_postfix({"AP":AP})
+            main_pbar.update(1)
+            
+        
 Train()
