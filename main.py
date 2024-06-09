@@ -4,9 +4,9 @@ from torch.utils.data import DataLoader
 from torch.optim import Adam
 import torch
 from evaluations import Loss
-
+from evaluations import evaluation
 EPOCHS=1
-BATCH_SIZE=4
+BATCH_SIZE=5
 S=7
 B=2
 C=20
@@ -26,6 +26,8 @@ def Train():
     img = batch of images with shape (batch size , S , S , B*5 + C)
     """
     for ep in range(EPOCHS):
+        evaluation(Trainloader,yolo)
+        break
         for img , grid in Trainloader:
             out=yolo(img)
             loss=loss_fn(out,grid)

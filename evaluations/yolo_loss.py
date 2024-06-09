@@ -29,42 +29,33 @@ class Loss(nn.Module):
         
         cord_loss=torch.mean(has_object*(
             ((bests)*boxes[...,26:28] 
-            + 
-            (1-bests)*boxes[...,21:23]    
-            -
-            target_boxes[...,21:23])**2
+            + (1-bests)*boxes[...,21:23]    
+            - target_boxes[...,21:23])**2
         ))
         
         cord_loss+=torch.mean(has_object*(
             ((bests)*torch.sqrt(torch.abs(boxes[...,28:])) 
-            + 
-            (1-bests)*torch.sqrt(torch.abs(boxes[...,23:25]))    
-            -
-            torch.sqrt(torch.abs(target_boxes[...,23:25]))
+            + (1-bests)*torch.sqrt(torch.abs(boxes[...,23:25]))    
+            - torch.sqrt(torch.abs(target_boxes[...,23:25]))
             )**2
         ))
 
 
         obj_loss=torch.mean(has_object*(
             ((bests)*boxes[...,:25:26]
-            +
-            (1-bests)*boxes[...,20:21]
-            -
-            target_boxes[...,20:21])**2
+            + (1-bests)*boxes[...,20:21]
+            - target_boxes[...,20:21])**2
         ))
 
         noobj_loss=torch.mean((1-has_object)*(
             ((bests)*boxes[...,:25:26]
-            +
-            (1-bests)*boxes[...,20:21]
-            -
-            target_boxes[...,20:21])**2
+            + (1-bests)*boxes[...,20:21]
+            - target_boxes[...,20:21])**2
         ))
 
         class_loss=torch.mean(has_object*(
             (boxes[...,:20]
-             -
-             target_boxes[...,:20])**2
+            - target_boxes[...,:20])**2
         ))
 
         total_loss=self.lamda_coord*cord_loss 
