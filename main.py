@@ -24,7 +24,7 @@ loss_fn=Loss(S,B,C)
 def Train():
     """
     img = batch of images with shape (batch size , channel size , width , hight)
-    img = batch of images with shape (batch size , S , S , B*5 + C)
+    grid = batch of images with shape (batch size , S , S , B*5 + C)
     """
     with tqdm(total=EPOCHS) as main_pbar:
         for ep in range(EPOCHS):
@@ -38,6 +38,6 @@ def Train():
             AP=evaluation(Trainloader,yolo)
             main_pbar.set_postfix({"AP":AP})
             main_pbar.update(1)
-            
+
         
 Train()
