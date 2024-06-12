@@ -13,33 +13,42 @@ def split_boxes(boxes,S,B,C):
     best_class=torch.argmax(boxes[...,:20],dim=-1).unsqueeze(-1)
     final_boxes=torch.cat((best_prob,best_class,best_box),dim=-1)
     
-    return final_boxes.reshape(-1,S*S,6)
+    return final_boxes.reshape(-1,S*S,6) # [prob , class , x , y , w ,h]
     
 @torch.no_grad()
 def evaluation(dataloader,model,prob_thresh=0.009,iou_thresh=0.5,S=7,B=2,C=20):
     model=model.eval()
-    final_predictions=[]
-    final_targets={}
+    final_predictions={i:{} for i in range(C)}
+    final_targets={i:{} for i in range(C)}
+    pred_class_count={i:0 for i in range(C)}
+    target_class_count={i:0 for i in range(C)}
     index=0
     for img,target in dataloader:
         pred=model(img)
         new_pred=split_boxes(pred.reshape(-1,S,S,B*5+C),S,B,C).tolist()
         new_target=split_boxes(target,S,B,C).tolist()
         batch_size=len(new_pred)
-        # print(batch_size)
         for i in range(batch_size):
             cleaned_boxes=non_max_suppression(new_pred[i],prob_thresh,iou_thresh)
-            final_targets[index]={}
             for box in cleaned_boxes:
-                final_predictions.append([index]+box)
+                if(index not in final_predictions[box[1]]):
+                    final_predictions[box[1]][index]=[]
+                final_predictions[box[1]][index].append(box)
+                pred_class_count[box[1]]+=1
             for box in new_target[i]:
                 if(box[0]>prob_thresh):
-                    if(box[1] not in final_targets[index]):
-                        final_targets[index][box[1]]=[]
-                    final_targets[index][box[1]].append(box)
+                    if(index not in final_targets[box[1]]):
+                        final_targets[box[1]][index]=[]
+                    final_targets[box[1]][index].append(box)
+                    target_class_count[box[1]]+=1
             index+=1
         
         # print(len(final_predictions))
-        break
-    AP=avrage_precision_score(final_predictions,final_targets,iou_thresh,C)
+        
+    AP=avrage_precision_score(final_predictions,
+                              final_targets,
+                              pred_class_count,
+                              target_class_count,
+                              iou_thresh,
+                              C)
     return AP
