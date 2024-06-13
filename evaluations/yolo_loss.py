@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from .iou import calculate_iou
+from iou import calculate_iou
 class Loss(nn.Module):
     def __init__(self,S,B,C):
         super(Loss,self).__init__()
@@ -34,8 +34,8 @@ class Loss(nn.Module):
         ))
         
         cord_loss+=torch.mean(has_object*(
-            ((bests)*torch.sqrt(torch.abs(boxes[...,28:])) 
-            + (1-bests)*torch.sqrt(torch.abs(boxes[...,23:25]))    
+            ((bests)*torch.sign(boxes[...,28:])*torch.sqrt(torch.abs(boxes[...,28:])) 
+            + (1-bests)*torch.sign(boxes[...,23:25])*torch.sqrt(torch.abs(boxes[...,23:25]))    
             - torch.sqrt(torch.abs(target_boxes[...,23:25]))
             )**2
         ))
