@@ -7,7 +7,7 @@ def non_max_suppression(boxes,prob_thresh,iou_thresh):
         prob_thresh : a threshold for proboblity of an object being captured bo the box. if < then we will drop the box
     """
     # print(boxes)
-    # print("==========")
+    # print("===========")
     boxes=sorted(boxes,key=lambda x : x[0],reverse=True) #sort the boxes based on their object_prob
     boxes=np.array(boxes)  
     boxes=boxes[boxes[:,0]>=prob_thresh].tolist() # drop the ones that have obejct_prob < prob_thresh
