@@ -28,8 +28,8 @@ def calculate_iou(predictions,main_box):
 
     intersection = torch.clamp((x2_i-x1_i),min=0)*torch.clamp((y2_i-y1_i),min=0)
     # print(x1_i,x2_i,y1_i,y2_i)
-    
-    union = (abs(x1_p - x2_p) * abs(y1_p - y2_p)) + (abs(x1_m - x2_m) * abs(y1_m - y2_m)) - intersection
+    # print(intersection)
+    union = ((abs(x1_p - x2_p) * abs(y1_p - y2_p)) + (abs(x1_m - x2_m) * abs(y1_m - y2_m))) - intersection
     
     return intersection / (union + 1e-6)
 

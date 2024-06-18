@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from iou import calculate_iou
+from .iou import calculate_iou
 class Loss(nn.Module):
     def __init__(self,S,B,C):
         super(Loss,self).__init__()
