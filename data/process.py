@@ -22,14 +22,19 @@ def get_border_box(voc_path,voc_boarder_path,part,id):
     with open(os.path.join(voc_boarder_path,f"{id}.txt"),"w") as f:
         image_label_paths[part].append(os.path.join(voc_boarder_path,f"{id}.txt"))
         for object in root.iter("object"):
+            difficult = object.find('difficult').text
+            cls = object.find('name').text
+            if cls not in all_classes or int(difficult) == 1:
+                continue
+            
             index=all_classes.index(object.find("name").text)
             cords=object.find("bndbox")
             x1=float(cords.find("xmin").text)
             x2=float(cords.find("xmax").text)
             y1=float(cords.find("ymin").text)
             y2=float(cords.find("ymax").text)
-            c1=(x1+x2)/2
-            c2=(y1+y2)/2
+            c1=((x1+x2)/2)/W
+            c2=((y1+y2)/2)/H
             w=(x2-x1)/W
             h=(y2-y1)/H
             

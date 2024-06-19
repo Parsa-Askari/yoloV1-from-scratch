@@ -4,12 +4,12 @@ import numpy as np
 def avrage_precision_score(pred_boxes  ,target_boxes ,pred_class_count,
                            target_class_count,iou_thresh=0.5):
     """
-    predbox={class_id:[img_idx:[box1 , box2 , ... ]]}
-        box : [prob , class , x , y , w , h]
+    predbox={class_id:{img_idx:[box1 , box2 , ... ]}}
+    target ={class_id:{img_idx:[box1 , box2 , ... ]}}
     """
     totol_AP=[]
     for c , target_imgs in target_boxes.items():
-        preds_imgs=pred_boxes.get(c,[])
+        preds_imgs=pred_boxes.get(c,{})
         if(len(preds_imgs)==0 or len(target_imgs)==0):
             continue 
         TP=torch.zeros(pred_class_count[c])
