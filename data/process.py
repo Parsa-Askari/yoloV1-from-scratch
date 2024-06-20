@@ -33,8 +33,8 @@ def get_border_box(voc_path,voc_boarder_path,part,id):
             x2=float(cords.find("xmax").text)
             y1=float(cords.find("ymin").text)
             y2=float(cords.find("ymax").text)
-            c1=((x1+x2)/2)/W
-            c2=((y1+y2)/2)/H
+            c1=(x1+x2)/2
+            c2=(y1+y2)/2
             w=(x2-x1)/W
             h=(y2-y1)/H
             

@@ -36,12 +36,12 @@ class dataset(Dataset):
         img=self.transform(img)
         for box in boxes:
             c,x,y,w,h,W,H=box
-            i,x=int((x)*self.S),((x)*self.S)-int((x)*self.S)
-            j,y=int((y)*self.S),((y)*self.S)-int((y)*self.S)
+            i,x=int(x/(W/self.S)),(x/(W/self.S))-int(x/(W/self.S))
+            j,y=int(y/(H/self.S)),(y/(H/self.S))-int(y/(H/self.S))
             w=self.S*w
             h=self.S*h
             if(grid[i,j,20]==0):
                 grid[i,j,21:25]=torch.tensor([x,y,w,h])
                 grid[i,j,20]=1
                 grid[i,j,c]=1
-        return img,grid ,W,H
+        return img,grid,W,H
