@@ -28,10 +28,10 @@ def reverse_box(best_boxes,H_t=448,W_t=448):
 
     return best_boxes
 
-def draw_boxes(img,boxes):
+def draw_boxes(img,boxes,prob=0.5):
     img=img.squeeze(0)
     boxes=boxes.squeeze(0)
-    real_boxes=boxes[boxes[...,0]>=0.9]
+    real_boxes=boxes[boxes[...,0]>prob]
     img=reverse_transfrom(img)
     fig, ax = plt.subplots()
     for box in real_boxes:

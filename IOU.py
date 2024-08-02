@@ -27,5 +27,3 @@ def iou(box1,box2,to_torch=False):
          - intersection
     
     return (intersection / (union + 1e-6))
-
-    

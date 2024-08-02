@@ -24,7 +24,7 @@ def nmx(boxes,iou_thresh=0.6,prob_thresh=0.5):
         cond=((boxes[...,0:1]!=refrence[0:1]) | (iou_scores<iou_thresh)).reshape(-1)
         boxes=boxes[cond]
         new_boxes.append(refrence.tolist())
-    return torch.tensor(new_boxes)
+    return new_boxes
 # boxes=[[1,0.9,100,100,50,50],
 #        [1,0.8,50,50,10,10],
 #        [2,0.2,200,100,50,50],

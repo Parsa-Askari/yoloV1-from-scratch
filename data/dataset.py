@@ -71,4 +71,3 @@ class VocDataset(Dataset):
                 grid[i,j,23]=w
                 grid[i,j,24]=h
         return img , grid
-
